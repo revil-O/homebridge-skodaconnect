@@ -53,7 +53,7 @@ function SKODAConnect(log, config) {
 
 }
 
-BMWConnected.prototype.getState = function(callback) {
+SKODAConnect.prototype.getState = function(callback) {
   this.log("Getting current state...");
   this.getauth(function(err){
     if (err) {
@@ -61,7 +61,7 @@ BMWConnected.prototype.getState = function(callback) {
     }
 
   request.get({
-    url: 'https://www.bmw-connecteddrive.co.uk/api/vehicle/dynamic/v1/' + this.vin,
+    url: 'https://<vw-url>/api/vehicle/dynamic/v1/' + this.vin,
     headers: {
       'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_1_1 like Mac OS X) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0 Mobile/15B150 Safari/604.1',
       'Authorization': 'Bearer ' + this.authToken,
@@ -83,7 +83,7 @@ BMWConnected.prototype.getState = function(callback) {
 }.bind(this));
 }
 
-BMWConnected.prototype.getExecution = function(callback) {
+SKODAConnect.prototype.getExecution = function(callback) {
   this.log("Waiting for confirmation...");
   this.getauth(function(err){
     if (err) {
@@ -93,7 +93,7 @@ BMWConnected.prototype.getExecution = function(callback) {
   var complete = 0;
 
   requestretry.get({
-    url: 'https://www.bmw-connecteddrive.co.uk/api/vehicle/remoteservices/v1/' + this.vin + '/state/execution',
+    url: 'https://<vw-url>/api/vehicle/remoteservices/v1/' + this.vin + '/state/execution',
     headers: {
       'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_1_1 like Mac OS X) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0 Mobile/15B150 Safari/604.1',
       'Authorization': 'Bearer ' + this.authToken,
@@ -129,8 +129,8 @@ function myRetryStrategy(err, response, body){
 }
 
 
-BMWConnected.prototype.setState = function(state, callback) {
-  var bmwState = (state == Characteristic.LockTargetState.SECURED) ? "RDL" : "RDU";
+SKODAConnect.prototype.setState = function(state, callback) {
+  var skodaState = (state == Characteristic.LockTargetState.SECURED) ? "RDL" : "RDU";
 
   this.log("Sending Command %s", bmwState);
   this.getauth(function(err){
@@ -139,7 +139,7 @@ BMWConnected.prototype.setState = function(state, callback) {
     }
 
   request.post({
-    url: 'https://customer.bmwgroup.com/api/vehicle/remoteservices/v1/' + this.vin +'/' + bmwState,
+    url: 'https://customer.vwgroup.io/vehicle/remoteservices/v1/' + this.vin +'/' + skodaState,
     headers: {
       'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_1_1 like Mac OS X) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0 Mobile/15B150 Safari/604.1',
       'Authorization': 'Bearer ' + this.authToken,
@@ -147,7 +147,7 @@ BMWConnected.prototype.setState = function(state, callback) {
   }, function(err, response, body) {
 
     if (!err && response.statusCode == 200) {
-      //this.log('Remote: ' + bmwState);
+      //this.log('Remote: ' + skodaState);
 
       // call this.getExecution
       this.getExecution(function(err){
@@ -174,18 +174,18 @@ BMWConnected.prototype.setState = function(state, callback) {
 }.bind(this));
 }
 
-BMWConnected.prototype.getServices = function() {
+SKODAConnect.prototype.getServices = function() {
   return [this.service];
 }
 
-BMWConnected.prototype.getauth = function(callback) {
+SKODAConnect.prototype.getauth = function(callback) {
 	if (this.needsAuthRefresh() === true) {
 		this.log ('Getting Auth Token');
 			request.post({
-				url: 'https://customer.bmwgroup.com/gcdm/oauth/authenticate',
+				url: 'https://customer.vwgroup.io/gcdm/oauth/authenticate',
 				headers: {
-				'Host':	'customer.bmwgroup.com',
-				'Origin':	'https://customer.bmwgroup.com',
+				'Host':	'customer.vwgroup.io',
+				'Origin':	'https://customer.vwgroup.io',
 				'Accept-Encoding':	'br, gzip, deflate',
 				'Content-Type' : 'application/x-www-form-urlencoded',
     		'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_1_1 like Mac OS X) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0 Mobile/15B150 Safari/604.1',
@@ -197,10 +197,10 @@ BMWConnected.prototype.getauth = function(callback) {
 					'password': this.password,
 					'client_id':this.client_id,
 					'response_type': 'token',
-					'redirect_uri':	'https://www.bmw-connecteddrive.com/app/default/static/external-dispatch.html',
+					'redirect_uri':	'https://www.skodaconnect.com/app/default/static/external-dispatch.html',
 					'scope': 'authenticate_user fupo',
 					'state': 'eyJtYXJrZXQiOiJnYiIsImxhbmd1YWdlIjoiZW4iLCJkZXN0aW5hdGlvbiI6ImxhbmRpbmdQYWdlIiwicGFyYW1ldGVycyI6Int9In0',
-					'locale': 'GB-en'
+					'locale': 'DE-de'
 				}
 			},function(err, response, body) {
 				 if (!err && response.statusCode == 302) {
@@ -230,7 +230,7 @@ BMWConnected.prototype.getauth = function(callback) {
 	}
 }
 
-BMWConnected.prototype.needsAuthRefresh = function () {
+SKODAConnect.prototype.needsAuthRefresh = function () {
 	var currentDate = new Date();
   	var now = currentDate.getTime();
  	//this.log("Now   :" + now);
