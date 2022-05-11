@@ -6,10 +6,10 @@ module.exports = function(homebridge) {
   Service = homebridge.hap.Service;
   Characteristic = homebridge.hap.Characteristic;
 
-  homebridge.registerAccessory("homebridge-bmw-connected", "BMWConnected", BMWConnected);
+  homebridge.registerAccessory("homebridge-skodaconnect", "SKODAConnect", SKODAConnect);
 }
 
-function BMWConnected(log, config) {
+function SKODAConnect(log, config) {
   this.log = log;
 	this.name = config["name"];
 	this.vin = config["vin"];
