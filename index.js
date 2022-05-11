@@ -61,7 +61,7 @@ SKODAConnect.prototype.getState = function(callback) {
     }
 
   request.get({
-    url: 'https://<vw-url>/api/vehicle/dynamic/v1/' + this.vin,
+    url: 'https://vwgroup.io/api/vehicle/dynamic/v1/' + this.vin,
     headers: {
       'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_1_1 like Mac OS X) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0 Mobile/15B150 Safari/604.1',
       'Authorization': 'Bearer ' + this.authToken,
@@ -93,7 +93,7 @@ SKODAConnect.prototype.getExecution = function(callback) {
   var complete = 0;
 
   requestretry.get({
-    url: 'https://<vw-url>/api/vehicle/remoteservices/v1/' + this.vin + '/state/execution',
+    url: 'https://vwgroup.io/api/vehicle/remoteservices/v1/' + this.vin + '/state/execution',
     headers: {
       'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_1_1 like Mac OS X) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0 Mobile/15B150 Safari/604.1',
       'Authorization': 'Bearer ' + this.authToken,
@@ -132,7 +132,7 @@ function myRetryStrategy(err, response, body){
 SKODAConnect.prototype.setState = function(state, callback) {
   var skodaState = (state == Characteristic.LockTargetState.SECURED) ? "RDL" : "RDU";
 
-  this.log("Sending Command %s", bmwState);
+  this.log("Sending Command %s", skodaState);
   this.getauth(function(err){
     if (err) {
       callback(err);
