@@ -1,5 +1,5 @@
 # homebridge-skodaconnect - still under development, not functional !!!!!!!!
-Control your locks on your Skoda Car via SkodaConnect-API
+Control your Skoda Car via SkodaConnect-API
 
 
 # config.json
