@@ -26,9 +26,9 @@ Control your locks on your Skoda Car via SkodaConnect-API
 
 ## Basic Auth
 
-This is a fork from the original script written by nosrak113 (homebridge-bmw-i-remote)
+This is a fork from the original script written by gadget-man (homebridge-bmw-connected)
 
-These API calls are designed to allow you to interact with your SkodaConnect Account. They were reverse engineered from [the official Skoda/VW Connected Website](https://www.msg-volkswagen.de/).
+These API calls are designed to allow you to interact with your SkodaConnect Account. They were reverse engineered from [the official Skoda/VW Connect Website](https://www.msg-volkswagen.de/).
 
 Your use of these API calls is entirely at your own risk.  They are neither officially provided nor sanctioned.
 
