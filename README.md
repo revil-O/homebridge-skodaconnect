@@ -10,7 +10,8 @@ Control your locks on your Skoda Car via SkodaConnect-API
         "name": "My Car",
         "vin": "ABC123",
         "username": "youremail@domain.com",
-        "password": "ABC123"
+        "password": "ABC123",
+        "clientid": "f9a2359a-b776-46d9-bd0c-db1904343117@apps_vw-dilab_com"
 }
 ```
 
@@ -22,6 +23,7 @@ Control your locks on your Skoda Car via SkodaConnect-API
 | `vin`                            | vin number of the car                                   |          |
 | `username`                       | username for SkodaConnect service                       |     ✓    |
 | `password`                       | password for SkodaConnect service                       |     ✓    |
+| `clientid`                       | the portable apps clientid for skodaconnect services.   |          |
 
 
 ## Basic Auth
